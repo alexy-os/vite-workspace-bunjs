@@ -2,11 +2,14 @@
   "name": "@apps/app",
   "private": true,
   "version": "1.0.0",
+  "description": "React application with Vite and BunJS, using shared UI components",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm -rf node_modules"
   },
   "dependencies": {
     "@packages/ui": "workspace:*",
