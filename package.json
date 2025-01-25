@@ -1,0 +1,23 @@
+{
+  "name": "vite-workspace-bunjs",
+  "description": "Vite Workspace BunJS",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "author": "AlexY-OS",
+  "homepage": "https://github.com/alexy-os/vite-workspace-bunjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexy-os/vite-workspace-bunjs.git"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --cwd apps/app dev",
+    "build": "bun run --cwd apps/app build",
+    "preview": "bun run --cwd apps/app preview",
+    "clean": "rm -rf node_modules **/*/node_modules"
+  }
+} 
