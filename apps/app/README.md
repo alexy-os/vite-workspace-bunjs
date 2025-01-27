@@ -42,7 +42,7 @@ The app will be available at `http://localhost:5173`.
 The app is configured to use components from the `@packages/ui` library. Import components directly:
 
 ```tsx
-import { Button } from '@packages/ui';
+import { Button } from '@packages/ui/components/ui/button';
 
 function MyComponent() {
   return (

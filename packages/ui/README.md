@@ -1,6 +1,6 @@
 # @packages/ui
 
-A shared UI component library for the Vite + React + BunJS workspace.
+A shared Shadcn/UI component library for the Vite + React + BunJS workspace.
 
 ## Components
 
@@ -9,7 +9,7 @@ A shared UI component library for the Vite + React + BunJS workspace.
 A customizable button component with a modern design.
 
 ```tsx
-import { Button } from '@packages/ui';
+import { Button } from '@packages/ui/components/ui/button';
 
 function MyComponent() {
   return (
@@ -36,7 +36,7 @@ function MyComponent() {
 ## Adding New Components
 
 1. Create your component in `src/`
-2. Export it in `src/index.ts`
+2. Export it in `"./components/*": "./src/components/*.tsx"`
 3. Add documentation to this README
 
 ## License
