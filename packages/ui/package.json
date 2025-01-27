@@ -18,5 +18,11 @@
   },
   "peerDependencies": {
     "react": "^18.2.0"
+  },
+  "exports": {
+    "./components/*": {
+      "types": "./src/*.tsx",
+      "import": "./src/*.tsx"
+    }
   }
 } 

@@ -1,4 +1,4 @@
-import { Button } from '@packages/ui';
+import { Button } from '@packages/ui/components/Button';
 
 function App() {
   return (
