@@ -1,4 +1,12 @@
 {
-  "extends": "@packages/typescript-config/vite.json",
-  "include": ["src"]
+  "extends": "../../packages/typescript-config/vite.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@apps/app/*": ["src/*"],
+      "@packages/*": ["../../packages/*/src"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 } 

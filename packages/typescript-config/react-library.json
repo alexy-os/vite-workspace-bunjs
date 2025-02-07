@@ -1,8 +1,9 @@
 {
-    "$schema": "https://json.schemastore.org/tsconfig",
-    "extends": "./base.json",
-    "compilerOptions": {
-      "jsx": "react-jsx",
-      "lib": ["ESNext", "DOM"]
-    }
+  "extends": "./base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "target": "ES2020"
   }
+} 
