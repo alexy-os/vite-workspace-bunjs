@@ -1,20 +1,99 @@
-import { ArrowRight, Box, Layers, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useCallback } from 'react';
+import { 
+  ReactFlow,
+  Node,
+  Edge,
+  Connection,
+  addEdge,
+  useNodesState,
+  useEdgesState,
+  Controls,
+  Background,
+  //Panel,
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+
+let checkConnections: () => void;  // Declare the function reference
+
+const initialNodes: Node[] = [
+  {
+    id: '1',
+    type: 'default',
+    position: { x: 100, y: 100 },
+    data: { 
+      label: 'Welcome'
+    },
+  },
+  {
+    id: '2',
+    type: 'default',
+    position: { x: 100, y: 200 },
+    data: { 
+      label: 'to Flow Builder'
+    },
+  },
+  {
+    id: '3',
+    type: 'default',
+    position: { x: 100, y: 300 },
+    data: { 
+      label: <button onClick={() => checkConnections && checkConnections()}>Check</button>,
+      message: '' 
+    },
+  },
+];
+
+const initialEdges: Edge[] = [];
 
 export function WelcomePage() {
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  checkConnections = useCallback(() => {
+    if (edges.length === 2) {
+      const correctConnection = 
+        edges.some(e => e.source === '1' && e.target === '2') &&
+        edges.some(e => e.source === '2' && e.target === '3');
+      
+      if (correctConnection) {
+        setNodes((nds) =>
+          nds.map((node) => {
+            if (node.id === '3') {
+              return {
+                ...node,
+                data: {
+                  ...node.data,
+                  label: 'Welcome to Flow Builder',
+                },
+              };
+            }
+            return node;
+          })
+        );
+      }
+    }
+  }, [edges, setNodes]);
+
+  const onConnect = useCallback(
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
+
   return (
-    <div className="flex-1 flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-background to-background/50 p-6">
-      <div className="max-w-3xl text-center space-y-8">
-        {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-          IA Flow Builder Page
-        </h1>
-        
-        {/* Subtitle */}
-        <p className="text-xl text-muted-foreground">
-          This area is under construction
-        </p>
-      </div>
+    <div style={{ width: '100vw', height: '100vh' }}>
+      <ReactFlow
+        colorMode="dark"
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        //deleteKeyCode={'Delete'}
+        fitView
+      >
+        <Background />
+        <Controls />
+      </ReactFlow>
     </div>
   );
 } 
