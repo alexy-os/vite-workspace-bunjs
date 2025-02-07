@@ -9,11 +9,11 @@ import {
   useEdgesState,
   Controls,
   Background,
-  //Panel,
+  Panel,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
-let checkConnections: () => void;  // Declare the function reference
+let checkConnections: () => void;
 
 const initialNodes: Node[] = [
   {
@@ -78,6 +78,13 @@ export function WelcomePage() {
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
+  
+  const hasDeletedNodes = nodes.length < initialNodes.length;
+  
+  const resetNodes = useCallback(() => {
+    setNodes(initialNodes);
+    setEdges(initialEdges);
+  }, [setNodes, setEdges]);
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
@@ -88,11 +95,28 @@ export function WelcomePage() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        //deleteKeyCode={'Delete'}
+        deleteKeyCode={'Delete'}
         fitView
       >
         <Background />
         <Controls />
+        {hasDeletedNodes && (
+          <Panel style={{ marginTop: '10px' }}>
+            <button 
+              onClick={resetNodes}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#000',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Restore nodes
+            </button>
+          </Panel>
+        )}
       </ReactFlow>
     </div>
   );
