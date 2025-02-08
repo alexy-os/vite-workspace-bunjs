@@ -9,6 +9,7 @@ export default {
   theme: {
     extend: {},
   },
+  important: true,
   plugins: [
     require('tailwind-scrollbar'),
   ],

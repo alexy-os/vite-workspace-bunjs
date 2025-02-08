@@ -10,54 +10,22 @@ import {
   Controls,
   Background,
   Panel,
-  Handle,
-  Position,
+ // Handle,
+  //Position,
 } from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import { Box } from 'lucide-react';
+import '@xyflow/react/dist/base.css';
 
-// Простой тип для данных ноды
-type NodeData = {
-  label: string | React.ReactNode;
-  message?: string;
+import CustomNode from './CustomNode';
+ 
+const nodeTypes = {
+  custom: CustomNode,
 };
-
-// Кастомная нода с handles
-const CustomNode = ({ data }: { data: NodeData }) => (
-  <div className="flex flex-col items-center p-6 rounded-lg border bg-card hover:shadow-md transition-shadow min-w-[200px]">
-    {/* Top Handle */}
-    <Handle 
-      type="target" 
-      position={Position.Top} 
-      className="w-4 h-4 bg-primary/50 rounded-full" 
-    />
-    
-    <div className="p-3 rounded-full bg-primary/10 text-primary mb-4">
-      <Box className="w-6 h-6" />
-    </div>
-    
-    {typeof data.label === 'string' ? (
-      <h3 className="text-lg font-semibold mb-2">{data.label}</h3>
-    ) : (
-      data.label
-    )}
-    
-    {/* Bottom Handle */}
-    <Handle 
-      type="source" 
-      position={Position.Bottom} 
-      className="w-4 h-4 bg-primary/50 rounded-full" 
-    />
-  </div>
-);
-
-const nodeTypes = { custom: CustomNode };
 
 const initialNodes: Node[] = [
   {
     id: '1',
     type: 'custom',
-    position: { x: 100, y: 100 },
+    position: { x: 350, y: 50 },
     data: { 
       label: 'Welcome'
     },
@@ -65,7 +33,7 @@ const initialNodes: Node[] = [
   {
     id: '2',
     type: 'custom',
-    position: { x: 100, y: 250 },
+    position: { x: 150, y: 300 },
     data: { 
       label: 'to Flow Builder'
     },
@@ -73,7 +41,7 @@ const initialNodes: Node[] = [
   {
     id: '3',
     type: 'custom',
-    position: { x: 100, y: 400 },
+    position: { x: 350, y: 550 },
     data: { 
       label: 'Check',
       message: '' 
@@ -126,41 +94,49 @@ export function WelcomePage() {
   }, [setNodes, setEdges]);
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        colorMode="dark"
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        deleteKeyCode={'Delete'}
-        fitView
-      >
-        <Background className="bg-background dark:bg-slate-950" />
-        <Controls />
-        {hasDeletedNodes && (
-          <Panel position="top-right">
-            <button 
-              onClick={resetNodes}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Restore nodes
-            </button>
+      <div style={{ width: '100vw', height: '100vh' }}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          colorMode="dark"
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          deleteKeyCode={'Delete'}
+          fitView
+        >
+          <Background className="bg-background text-foreground" />
+          <Controls />
+          {hasDeletedNodes && (
+            <Panel position="top-right">
+              <button 
+                onClick={resetNodes}
+                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+              >
+                Restore nodes
+              </button>
+            </Panel>
+          )}
+          {nodes.find(node => node.id === '3') && (
+            <Panel position="bottom-right">
+              <button 
+                onClick={() => checkConnections()}
+                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+              >
+                Check Connections
+              </button>
+            </Panel>
+          )}
+          <Panel position="top-left">
+            <div className="flex flex-col max-w-[200px] items-center p-6 rounded-lg border bg-card hover:shadow-md transition-shadow min-w-[200px]">
+              <h3 className="text-lg font-semibold mb-2">How use</h3>
+              <p className="text-sm text-muted-foreground">
+                Drag and drop nodes to create your flow. For delete node, select node or edge and press delete key.
+              </p>
+            </div>
           </Panel>
-        )}
-        {nodes.find(node => node.id === '3') && (
-          <Panel position="bottom-right">
-            <button 
-              onClick={() => checkConnections()}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Check Connections
-            </button>
-          </Panel>
-        )}
-      </ReactFlow>
-    </div>
+        </ReactFlow>
+      </div>
   );
 } 
