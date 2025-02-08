@@ -79,8 +79,12 @@ export function WelcomePage() {
             return node;
           })
         );
+      } else {
+        alert('Please correctly connect the nodes to continue: 1 -> 2 -> 3');
       }
-    }
+    } else {
+        alert('Please connect the nodes correctly.');
+      }
   }, [edges, setNodes]);
 
   const onConnect = useCallback(
